@@ -3,41 +3,41 @@ body {
   padding: 0;
   background: radial-gradient(circle at top, #000, #2b1055);
   color: white;
-  font-size: 14px;
   font-family: 'Playfair Display', serif;
-  overflow: hidden; /* تم التعديل لمنع السكرول غير الضروري */
-}
-
-a {
-  color: white;
-  font-size: 14px;
-  text-decoration: none;
+  overflow: hidden; /* منع السكرول المزعج */
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* سنقوم بتوسيط كل شيء في منتصف الشاشة */
 }
 
 #main {
   width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #wrap {
-  position: relative; 
-  margin: 0 auto;
-  width: 1100px;
-  height: 680px;
-  margin-top: 10px;
+  position: relative;
+  width: 1100px; /* العرض الأصلي ثابت */
+  height: 680px; /* الارتفاع الأصلي ثابت */
+  /* هذا الجزء سيتم التحكم به عبر الـ Media Query في الأسفل */
 }
 
 #text {
-  width: 400px; /* زدت العرض قليلاً ليناسب النص */
+  width: 400px;
   height: 560px;
-  left: 100px; /* تحريك النص لليسار قليلاً ليعطي مساحة للشجرة */
+  left: 50px;
   top: 80px;
   position: absolute;
   z-index: 100;
 }
 
 #code {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px; /* تكبير الخط قليلاً للوضوح */
+  font-size: 16px;
   line-height: 2;
   color: #f3e9f7;
   text-shadow: 0 2px 6px rgba(0,0,0,0.4);
@@ -47,55 +47,54 @@ a {
 
 #clock-box {
   position: absolute;
-  left: 60px;
+  left: 50px;
   top: 550px;
   font-size: 28px;
   display: none;
+  z-index: 100;
 }
 
 #canvas {
-  margin: 0 auto;
   width: 1100px;
   height: 680px;
   display: block;
-  z-index: 10;
-  position: relative;
 }
 
-/* --- تنسيق البطريق --- */
-#penguin {
+#penguin, #penguin2 {
     position: absolute;
-    bottom: 50px;      /* مكانه فوق أسفل الحاوية */
-    right: 320px;      /* مكانه بجانب جذع الشجرة */
-    width: 130px;      /* حجم البطريق */
-    z-index: 5;        /* خلف أغصان الشجرة قليلاً ليعطي عمق */
-    display: none;     /* مخفي ليبدأ الأنميشن */
-    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5)); /* ظل لجعل البطريق واقعي */
-    pointer-events: none; /* عشان ميعطلش الكليك على الشجرة */
+    width: 130px;
+    z-index: 5;
+    display: none;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5));
 }
-/* --- تنسيق البطريق --- */
-#penguin2 {
-    position: absolute;
-    bottom: 2px;      /* مكانه فوق أسفل الحاوية */
-    right: 410px;      /* مكانه بجانب جذع الشجرة */
-    width: 130px;      /* حجم البطريق */
-    z-index: 5;        /* خلف أغصان الشجرة قليلاً ليعطي عمق */
-    display: none;     /* مخفي ليبدأ الأنميشن */
-    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5)); /* ظل لجعل البطريق واقعي */
-    pointer-events: none; /* عشان ميعطلش الكليك على الشجرة */
+#penguin { bottom: 50px; right: 320px; }
+#penguin2 { bottom: 2px; right: 410px; }
+
+/* =============================================
+   سحر التجاوب: تصغير المشهد بالكامل ليناسب شاشة الموبايل الطولية
+   ============================================= */
+
+@media screen and (max-width: 1100px) {
+    #wrap {
+        /* تصغير المشهد بالكامل بناءً على عرض الشاشة */
+        transform: scale(calc(window.innerWidth / 1150)); 
+        /* إذا لم تعمل المعادلة أعلاه في بعض المتصفحات، سنستخدم القيمة التقريبية أدناه */
+    }
 }
 
-#error {
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 60px;
-  display: none;
+/* الموبايلات العادية (مثل آيفون وسامسونج) */
+@media screen and (max-width: 480px) {
+    #wrap {
+        /* تصغير المشهد بنسبة 32% ليناسب عرض الموبايل الصغير جداً */
+        transform: scale(0.32); 
+        transform-origin: center center;
+    }
 }
 
-.hand {
-  cursor: pointer;
-}
-
-.say {
-  margin-left: 5px;
+/* الموبايلات المتوسطة */
+@media screen and (max-width: 768px) and (min-width: 481px) {
+    #wrap {
+        transform: scale(0.6);
+        transform-origin: center center;
+    }
 }
