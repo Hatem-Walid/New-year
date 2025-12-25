@@ -4,39 +4,47 @@ body {
   background: radial-gradient(circle at top, #000, #2b1055);
   color: white;
   font-size: 14px;
-  font-family: sans-serif;
-  overflow: auto;
+  font-family: 'Playfair Display', serif;
+  overflow: hidden; /* تم التعديل لمنع السكرول غير الضروري */
 }
+
 a {
   color: white;
   font-size: 14px;
+  text-decoration: none;
 }
+
 #main {
   width: 100%;
 }
+
 #wrap {
-  position: relative;
+  position: relative; 
   margin: 0 auto;
   width: 1100px;
   height: 680px;
   margin-top: 10px;
 }
+
 #text {
-  width: 272px;
+  width: 400px; /* زدت العرض قليلاً ليناسب النص */
   height: 560px;
-  left: 188px;
+  left: 100px; /* تحريك النص لليسار قليلاً ليعطي مساحة للشجرة */
   top: 80px;
   position: absolute;
+  z-index: 100;
 }
+
 #code {
- font-family: 'Playfair Display', serif;
-  font-size: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; /* تكبير الخط قليلاً للوضوح */
   line-height: 2;
-  color: #f3e9f7; /* لون دافي */
+  color: #f3e9f7;
   text-shadow: 0 2px 6px rgba(0,0,0,0.4);
   display: none;
   font-weight: bolder;
 }
+
 #clock-box {
   position: absolute;
   left: 60px;
@@ -44,41 +52,50 @@ a {
   font-size: 28px;
   display: none;
 }
-#clock-box a {
-  font-size: 28px;
-  text-decoration: none;
-}
-#clock {
-  margin-left: 48px;
-}
-#clock .digit {
-  font-size: 64px;
-}
+
 #canvas {
   margin: 0 auto;
   width: 1100px;
   height: 680px;
+  display: block;
+  z-index: 10;
+  position: relative;
 }
+
+/* --- تنسيق البطريق --- */
+#penguin {
+    position: absolute;
+    bottom: 50px;      /* مكانه فوق أسفل الحاوية */
+    right: 320px;      /* مكانه بجانب جذع الشجرة */
+    width: 130px;      /* حجم البطريق */
+    z-index: 5;        /* خلف أغصان الشجرة قليلاً ليعطي عمق */
+    display: none;     /* مخفي ليبدأ الأنميشن */
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5)); /* ظل لجعل البطريق واقعي */
+    pointer-events: none; /* عشان ميعطلش الكليك على الشجرة */
+}
+/* --- تنسيق البطريق --- */
+#penguin2 {
+    position: absolute;
+    bottom: 2px;      /* مكانه فوق أسفل الحاوية */
+    right: 410px;      /* مكانه بجانب جذع الشجرة */
+    width: 130px;      /* حجم البطريق */
+    z-index: 5;        /* خلف أغصان الشجرة قليلاً ليعطي عمق */
+    display: none;     /* مخفي ليبدأ الأنميشن */
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.5)); /* ظل لجعل البطريق واقعي */
+    pointer-events: none; /* عشان ميعطلش الكليك على الشجرة */
+}
+
 #error {
   margin: 0 auto;
   text-align: center;
   margin-top: 60px;
   display: none;
 }
+
 .hand {
   cursor: pointer;
 }
+
 .say {
   margin-left: 5px;
-}
-.space {
-  margin-right: 150px;
-}
-
-#message-box{
-  position: absolute;
-  margin-top:450px;
-  font-size: 25px;
-  font-family: monospace;
-
 }

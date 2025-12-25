@@ -23,15 +23,14 @@
 </head>
 <body>
     <div id="main">
-        <div id="error"><a href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a> (<a href="http://firefox.com.cn/download/">Firefox</a>)</div>
-        <audio autoplay="autoplay" height="100" width="100" id="myAudio">
+        <div id="error">الرجاء استخدام متصفح حديث مثل Chrome أو Firefox</div>
+        <audio autoplay="autoplay" id="myAudio">
             <source src="aud.mp3" type="audio/mp3" />
-            <embed height="100" width="100" src="aud.mp3" />
         </audio>
         <div id="wrap">
             <div id="text">
                 <div id="code">
-                    <span class="say">Hey you… 🤍</span><br>
+                    <span class="say">Hey Batareko… 🐧❄️🧣</span><br>
                     <span class="say">I don’t need perfect words tonight</span><br>
                     <span class="say">I just need you to know how much you mean to me</span><br>
                     <span class="say">Every little thing reminds me of you ✨</span><br>
@@ -44,16 +43,20 @@
                 </div>
             </div>
             <div id="clock-box">
-                <span id="clock">577 days 0 hours 0 minutes 0 seconds</span> <!-- Change to "6940 days..." if needed -->
+                <span id="clock">577 days 0 hours 0 minutes 0 seconds</span>
             </div>
             <canvas id="canvas" width="1100" height="680"></canvas>
+            
+            <!-- إضافة صورة البطريق هنا -->
+            <img id="penguin" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnFjMXJwN3dieDZtejFlcTJwMXQ3dWRmMW9kY3Vzem92amI4ZGYyMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/IG5nJivlKeDs6dlxqN/giphy.gif" alt="Penguin">
+            <img id="penguin2" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2J4dnkxdWF2aTMwZ2U4Nm5meHg2anhrd3Vxenl4djl1NHE0ZGFvZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/sNqB7n0uhrQueJfVeD/giphy.gif" alt="Penguin">
+
         </div>
     </div>
 
     <script>
     (function() {
         var canvas = $('#canvas');
-		
         if (!canvas[0].getContext) {
             $("#error").show();
             return false;
@@ -65,11 +68,7 @@
         canvas.attr("height", height);
 
         var opts = {
-            seed: {
-                x: width / 2 - 20,
-                color: "rgb(190, 26, 37)",
-                scale: 2
-            },
+            seed: { x: width / 2 - 20, color: "rgb(190, 26, 37)", scale: 2 },
             branch: [
                 [535, 680, 570, 250, 500, 200, 30, 100, [
                     [540, 500, 455, 417, 340, 400, 13, 100, [
@@ -88,16 +87,8 @@
                     ]]
                 ]] 
             ],
-            bloom: {
-                num: 700,
-                width: 1080,
-                height: 650,
-            },
-            footer: {
-                width: 1200,
-                height: 5,
-                speed: 10,
-            }
+            bloom: { num: 700, width: 1080, height: 650 },
+            footer: { width: 1200, height: 5, speed: 10 }
         }
 
         var tree = new Tree(canvas[0], width, height, opts);
@@ -125,43 +116,24 @@
 
         var seedAnimate = eval(Jscex.compile("async", function () {
             seed.draw();
-            while (hold) {
-                $await(Jscex.Async.sleep(10));
-            }
-            while (seed.canScale()) {
-                seed.scale(0.95);
-                $await(Jscex.Async.sleep(10));
-            }
-            while (seed.canMove()) {
-                seed.move(0, 2);
-                foot.draw();
-                $await(Jscex.Async.sleep(10));
-            }
+            while (hold) { $await(Jscex.Async.sleep(10)); }
+            while (seed.canScale()) { seed.scale(0.95); $await(Jscex.Async.sleep(10)); }
+            while (seed.canMove()) { seed.move(0, 2); foot.draw(); $await(Jscex.Async.sleep(10)); }
         }));
 
         var growAnimate = eval(Jscex.compile("async", function () {
-            do {
-                tree.grow();
-                $await(Jscex.Async.sleep(10));
-            } while (tree.canGrow());
+            do { tree.grow(); $await(Jscex.Async.sleep(10)); } while (tree.canGrow());
         }));
 
         var flowAnimate = eval(Jscex.compile("async", function () {
-            do {
-                tree.flower(2);
-                $await(Jscex.Async.sleep(10));
-            } while (tree.canFlower());
+            do { tree.flower(2); $await(Jscex.Async.sleep(10)); } while (tree.canFlower());
         }));
 
         var moveAnimate = eval(Jscex.compile("async", function () {
             tree.snapshot("p1", 240, 0, 610, 680);
-            while (tree.move("p1", 500, 0)) {
-                foot.draw();
-                $await(Jscex.Async.sleep(10));
-            }
+            while (tree.move("p1", 500, 0)) { foot.draw(); $await(Jscex.Async.sleep(10)); }
             foot.draw();
             tree.snapshot("p2", 500, 0, 610, 680);
-
             canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
             canvas.css("background", "#ffe");
             $await(Jscex.Async.sleep(300));
@@ -177,6 +149,11 @@
             $await(growAnimate());
             $await(flowAnimate());
             $await(moveAnimate());
+            
+            // --- البطريق يظهر هنا بعد اكتمال الشجرة ---
+            $("#penguin").fadeIn(2000);
+            $("#penguin2").fadeIn(2000); 
+            
             textAnimate().start();
         }));
 
